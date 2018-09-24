@@ -1,0 +1,119 @@
+from django.http import HttpResponse
+from django.template import loader
+import bs4 as bs
+from urllib.request import Request, urlopen
+from collections import OrderedDict
+
+# rating star global rank country rank
+
+def index(request):
+    a=['hello','motto']
+
+    template=loader.get_template('cf_scrapper/index.html')
+    context={
+        'a':a
+    }
+    return HttpResponse(template.render(context,request))
+
+def search(request):
+
+    name=request.GET['q']
+    url='https://www.codechef.com/users/'+name
+
+
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    soup = bs.BeautifulSoup(webpage, 'lxml')
+    ratings=[]
+
+    r1 = soup.find('div', class_='rating-number')
+    ratings.append(r1.text)
+
+    cnt = 0
+    r2 = soup.find('div', class_='rating-star')
+
+    for x in r2.find_all('span'):
+        cnt += 1
+
+    ratings.append(cnt)
+
+    r3 = soup.find('div', class_='rating-ranks')
+
+    for x in r3.find_all('li'):
+        y = x.find('a')
+        ratings.append(y.text)
+
+    t = soup.find('section', class_='rating-data-section problems-solved')
+    firt = t.find_all('p')
+
+    f = 0
+
+    d = []
+    q = {}
+    cnt = 0
+    dd=''
+    name=[]
+    link=[]
+    clist = []
+
+    qc = 0
+    for x in t.find_all('p'):
+        y = x.find('strong')
+        d.append(y.text)
+        f = 0
+        for z in x.find_all('a'):
+            url = 'https://www.codechef.com' + z['href']
+            req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            webpage = urlopen(req).read()
+            s = bs.BeautifulSoup(webpage, 'lxml')
+
+            f = s.find('div', class_='tablebox-section l-float')
+            sd = f.find('tbody')
+            fg = sd.find('tr')
+            gf = fg.find_all('td')
+            df = gf[7]
+
+            if df.find('a', class_='disabled'):
+                continue;
+            else:
+                # print("$$"+y.text)
+
+                af = df.find('a')
+                newurl = 'https://www.codechef.com' + af['href']
+                s = z.text + '$' + newurl
+                q[cnt] = s
+                dd=q[cnt].split('$')
+                name.append(dd[0])
+                link.append(dd[1])
+                cnt += 1
+        clist.append(cnt)
+
+    OrderedDict(q)
+
+    prev = 0
+
+    for ds in d:
+        print(ds)
+
+    i = 0
+    for c in clist:
+        print(d[i] + "##")
+        i += 1
+        for x in range(prev, c):
+            dz = q[x].split('$')
+            print(dz[0])
+            print(dz[1])
+        prev = c
+        print('')
+
+    context = {
+        'ratings':ratings,
+        'name':name,
+        'link':link,
+        'd':d,
+        'clist':clist,
+        'n':range(cnt)
+    }
+    template = loader.get_template('cf_scrapper/detail.html')
+    return HttpResponse(template.render(context,request))
+

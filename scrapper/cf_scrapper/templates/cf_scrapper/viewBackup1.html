@@ -1,0 +1,114 @@
+from django.http import HttpResponse
+from django.template import loader
+import bs4 as bs
+from urllib.request import Request, urlopen
+from collections import OrderedDict
+
+# rating star global rank country rank
+
+class mi:
+    name=""
+
+def index(request):
+    a=['hello','motto']
+
+    template=loader.get_template('cf_scrapper/index.html')
+    context={
+        'a':a
+    }
+    return HttpResponse(template.render(context,request))
+
+def search(request):
+
+    mi.name=request.GET['q']
+    url='https://www.codechef.com/users/'+mi.name
+
+
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    soup = bs.BeautifulSoup(webpage, 'lxml')
+    ratings=[]
+
+    r1 = soup.find('div', class_='rating-number')
+    ratings.append(r1.text)
+
+    cnt = 0
+    r2 = soup.find('div', class_='rating-star')
+
+    for x in r2.find_all('span'):
+        cnt += 1
+
+    ratings.append(cnt)
+    q=[]
+    r3 = soup.find('div', class_='rating-ranks')
+
+    for x in r3.find_all('li'):
+        y = x.find('a')
+        ratings.append(y.text)
+
+    t = soup.find('section', class_='rating-data-section problems-solved')
+    d=[]
+    cnt=1
+    clist=[]
+    for x in t.find_all('p'):
+        y = x.find('strong')
+        q.append(y.text)
+        for z in x.find_all('a'):
+            s = z.text
+            q.append(s)
+            cnt+=1
+        clist.append(cnt)
+
+
+    context = {
+        'q':q,
+        'ratings': ratings,
+        'd':d,
+        'clist':clist,
+    }
+    template = loader.get_template('cf_scrapper/detail.html')
+    return HttpResponse(template.render(context,request))
+
+def ans(request,string):
+    url='https://www.codechef.com/'+string+'/status/'+string+','+mi.name
+    nm=mi.name
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    soup = bs.BeautifulSoup(webpage, 'lxml')
+
+    s = bs.BeautifulSoup(webpage, 'lxml')
+
+    f = s.find('div', class_='tablebox-section l-float')
+    sd = f.find('tbody')
+    fg = sd.find('tr')
+    gf = fg.find_all('td')
+    df = gf[0]
+    nm=df.text
+
+    af = df.find('a')
+
+    newurl = 'https://www.codechef.com' + af['href']
+    abc=newurl
+    req = Request(newurl, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    soup = bs.BeautifulSoup(webpage, 'lxml')
+
+    h = []
+
+    table = soup.find("ol")
+
+    for t in table.find_all('li'):
+        h.append(t.text)
+
+    context = {
+        'abc':abc,
+        'h': h,
+        'nm':nm,
+        'url':url,
+        'string':string,
+
+    }
+    template = loader.get_template('cf_scrapper/ans.html')
+    return HttpResponse(template.render(context, request))
+
+

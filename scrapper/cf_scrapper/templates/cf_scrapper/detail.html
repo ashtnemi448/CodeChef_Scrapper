@@ -1,0 +1,162 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="">
+<html class="no-js lt-ie9 lt-ie8" lang="">
+<html class="no-js lt-ie9" lang="">
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zxx">
+<!--<![endif]-->
+
+<head>
+    <!--====== USEFULL META ======-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="APPTON HTML5 Template is a simple Smooth Personal App Landing Template" />
+    <meta name="keywords" content="App, Landing, Business, Onepage, Html, Business" />
+
+    <!--====== TITLE TAG ======-->
+    <title>Educrown HTML5 Education Template</title>
+
+
+    <!--====== FAVICON ICON =======-->
+    <link rel="shortcut icon" type="image/ico" href="{% static 'cf_scrapper/assest/img/favicon.png' %}" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <!--====== STYLESHEETS ======-->
+    <link href="{% static 'cf_scrapper/assest/css/plugins.css' %}" rel="stylesheet">
+    <link href="{% static 'cf_scrapper/assest/css/theme.css' %}" rel="stylesheet">
+    <link href="{% static 'cf_scrapper/assest/css/icons.css' %}" rel="stylesheet">
+
+    <!--====== MAIN STYLESHEETS ======-->
+    <link href="{% static 'cf_scrapper/style.css' %}" rel="stylesheet">
+    <link href="{% static 'cf_scrapper/assest/css/responsive.css' %}" rel="stylesheet">
+
+    <script src="{% static 'cf_scrapper/assest/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+        <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+</head>
+
+<body data-spy="scroll" data-target=".mainmenu-area" data-offset="90">
+
+    <!--FUN FACT AREA AREA-->
+    <section class="fun-fact-area center white relative padding-100-70" style="height:100%;" id="fact">
+        <div class="area-bg" data-stellar-background-ratio="0.6"></div>
+        <div class="container">
+            <br><br><br>
+            <br><br><br>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="single-fun-fact mb30 wow fadeInUp" data-wow-delay="0.1s">
+                        <h3 class="font60 xs-font26"><span class="counter">{{ ratings.0 }}</span></h3>
+                        <p class="font600">Rating</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="single-fun-fact mb30 wow fadeInUp" data-wow-delay="0.2s">
+                        <h3 class="font60 xs-font26"><span class="counter">{{ ratings.1 }}</span></h3>
+                        <p class="font600">Stars</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="single-fun-fact mb30 wow fadeInUp" data-wow-delay="0.3s">
+                        <h3 class="font60 xs-font26"><span class="counter">{{ ratings.2 }}</span></h3>
+                        <p class="font600">GLobal RAnk</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="single-fun-fact mb30 wow fadeInUp" data-wow-delay="0.4s">
+                        <h3 class="font60 xs-font26"><span class="counter">{{ ratings.3 }}</span></h3>
+                        <p class="font600">Country Rank</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--FUN FACT AREA AREA END-->
+
+    <!--BLOG AREA-->
+    <section class="blog-feed-area padding-top"  id="blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 col-sm-12 col-xs-12">
+                    <div class="area-title text-center wow fadeIn">
+                        <h2>From Our Blog</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" >
+                    <div class="single-blog-item sm-mb30 xs-mb30 wow fadeInUp" style="background-color:#f4f9fc;" data-wow-delay="0.2s">
+                        <div class="blog-details padding30">
+                            <h3 class="blog-title font20 mb30">His Solutions</h3>
+
+
+                            {% for keys,values in dic.items %}
+                            <br><br>
+                            <h4>{{ keys }}</h4>
+                            <br>
+                                {% for x in values %}
+                                <a onclick='clickfunc(this)' class="enroll-button">{{ x }} <sub> -{{keys}} <sub> </a>
+                                {% if forloop.counter|divisibleby:"7" %}
+                                    <br>
+                                       <br>
+                                    <br>
+                                {% endif %}
+                                {% endfor %}
+
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--BLOG AREA END-->
+
+
+    <!--====== SCRIPTS JS ======-->
+    <script src="{% static 'cf_scrapper/assest/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/vendor/bootstrap.min.js' %}"></script>
+
+    <!--====== PLUGINS JS ======-->
+    <script src="{% static 'cf_scrapper/assest/js/vendor/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/vendor/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/vendor/jquery.appear.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/stellar.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/wow.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/jquery-modal-video.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/stellarnav.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/placeholdem.min.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/contact-form.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/jquery.ajaxchimp.js' %}"></script>
+    <script src="{% static 'cf_scrapper/assest/js/jquery.sticky.js' %}"></script>
+
+    <script>
+    clickfunc = function(link) {
+    var url = (link.innerText).replace(/\s/g, "");
+    alert( typeof url)
+      window.location.href = 'ques/'+url;
+    }
+    </script>
+
+    <!--===== ACTIVE JS=====-->
+    <script src="{% static 'cf_scrapper/assest/js/main.js' %}"></script>
+
+    <!--===== MAPS JS=====-->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTS_KEDfHXYBslFTI_qPJIybDP3eceE-A&sensor=false"></script>
+    <script src="{% static 'cf_scrapper/assest/js/maps.active.js' %}"></script>
+</body>
+
+
+
+</html>
